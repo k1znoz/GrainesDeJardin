@@ -3,7 +3,9 @@
 	import HeroSection from '$lib/components/sections/HeroSection.svelte';
 	import ExperienceTimeline from '$lib/components/sections/ExperienceTimeline.svelte';
 	import ServicesSection from '$lib/components/sections/ServicesSection.svelte';
+	import GallerySection from '$lib/components/sections/GallerySection.svelte';
 	import PricingSection from '$lib/components/sections/PricingSection.svelte';
+	import AppointmentSection from '$lib/components/sections/AppointmentSection.svelte';
 	import TestimonialsSection from '$lib/components/sections/TestimonialsSection.svelte';
 	import ContactSection from '$lib/components/sections/ContactSection.svelte';
 	import PhoneButton from '$lib/components/ui/PhoneButton.svelte';
@@ -60,7 +62,9 @@
 	<HeroSection />
 	<ExperienceTimeline />
 	<ServicesSection />
+	<GallerySection />
 	<PricingSection />
+	<AppointmentSection />
 	<TestimonialsSection />
 	<ContactSection />
 

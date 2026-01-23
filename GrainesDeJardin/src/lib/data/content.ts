@@ -163,3 +163,74 @@ export const contact = {
 	},
 	preferredContact: 'Le téléphone reste le moyen le plus rapide de me joindre !'
 };
+
+export const gallery = {
+	title: 'Nos réalisations parlent d\'elles-mêmes',
+	subtitle: 'Découvrez la transformation de jardins confiés à nos soins',
+	note: '📸 Photos de chantiers à venir - Section en préparation',
+	projects: [
+		{
+			id: 1,
+			title: 'Transformation complète',
+			location: 'Sainte-Foy',
+			before: [],
+			during: [],
+			after: [],
+			description: 'Entretien annuel : tonte, taille des haies et désherbage régulier',
+			services: ['Tonte', 'Taille', 'Désherbage']
+		},
+		{
+			id: 2,
+			title: 'Rénovation de pelouse',
+			location: 'Vendée',
+			before: [],
+			during: [],
+			after: [],
+			description: 'Remise en état et entretien suivi sur forfait mensuel',
+			services: ['Tonte mulching', 'Bordures']
+		},
+		{
+			id: 3,
+			title: 'Taille de haies',
+			location: 'Sainte-Foy',
+			before: ['/images/gallery/projet1-avant.jpeg'],
+			during: ['/images/gallery/projet1-pendant.jpeg'],
+			after: ['/images/gallery/projet1-apres.jpeg', '/images/gallery/projet1-apres2.jpeg'],
+			description: 'Taille architecturale et entretien régulier',
+			services: ['Taille', 'Ramassage']
+		}
+	]
+};
+
+export const appointment = {
+	title: 'Réservez votre premier rendez-vous',
+	subtitle: 'Consultation gratuite pour évaluer vos besoins et établir un devis personnalisé',
+	note: '⚠️ Sous réserve d\'acceptation du professionnel - Confirmation par téléphone',
+	benefits: [
+		{
+			icon: '📅',
+			title: 'Rendez-vous gratuit',
+			description: 'Premier contact sans engagement'
+		},
+		{
+			icon: '📍',
+			title: 'Visite sur place',
+			description: 'Évaluation précise de vos besoins'
+		},
+		{
+			icon: '💰',
+			title: 'Devis personnalisé',
+			description: 'Tarification adaptée et transparente'
+		}
+	],
+	availabilityNote: 'Disponibilités indicatives - confirmation par téléphone',
+	workingHours: {
+		monday: '08:00-18:00',
+		tuesday: '08:00-18:00',
+		wednesday: '08:00-18:00',
+		thursday: '08:00-18:00',
+		friday: '08:00-18:00',
+		saturday: '08:00-12:00',
+		sunday: 'Fermé'
+	}
+};
