@@ -1,21 +1,23 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { appointment, siteConfig } from '$lib/data/content';
-	import { onMount } from 'svelte';
-	
-	// État du calendrier
+	import { SvelteDate } from 'svelte/reactivity';
+	import SectionDivider from '$lib/components/ui/SectionDivider.svelte';
+	import HeaderOrnament from '$lib/components/ui/HeaderOrnament.svelte';
+
+	// Etat du calendrier
 	let currentDate = $state(new Date());
 	let selectedDate = $state<Date | null>(null);
 	let selectedTime = $state<string | null>(null);
 	let showConfirmation = $state(false);
-	
-	// État du formulaire
+
+	// Etat du formulaire
 	let formData = $state({
 		name: '',
 		email: '',
 		phone: '',
 		message: ''
 	});
-	
+
 	// Calcul des jours du mois
 	let calendarDays = $derived(() => {
 		const year = currentDate.getFullYear();
@@ -24,71 +26,97 @@
 		const lastDay = new Date(year, month + 1, 0);
 		const daysInMonth = lastDay.getDate();
 		const startingDayOfWeek = firstDay.getDay();
-		
+
 		const days: (Date | null)[] = [];
-		
+
 		// Jours vides avant le 1er du mois
 		for (let i = 0; i < startingDayOfWeek; i++) {
 			days.push(null);
 		}
-		
+
 		// Jours du mois
 		for (let day = 1; day <= daysInMonth; day++) {
 			days.push(new Date(year, month, day));
 		}
-		
+
 		return days;
 	});
-	
-	const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
-	const dayNames = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
-	
-	// Créneaux horaires disponibles
-	const timeSlots = [
-		'08:00', '08:30', '09:00', '09:30', '10:00', '10:30',
-		'11:00', '11:30', '14:00', '14:30', '15:00', '15:30',
-		'16:00', '16:30', '17:00', '17:30'
+
+	const monthNames = [
+		'Janvier',
+		'Fevrier',
+		'Mars',
+		'Avril',
+		'Mai',
+		'Juin',
+		'Juillet',
+		'Aout',
+		'Septembre',
+		'Octobre',
+		'Novembre',
+		'Decembre'
 	];
-	
+	const dayNames = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+
+	// Creneaux horaires disponibles
+	const timeSlots = [
+		'08:00',
+		'08:30',
+		'09:00',
+		'09:30',
+		'10:00',
+		'10:30',
+		'11:00',
+		'11:30',
+		'14:00',
+		'14:30',
+		'15:00',
+		'15:30',
+		'16:00',
+		'16:30',
+		'17:00',
+		'17:30'
+	];
+
 	function previousMonth() {
 		currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1);
 	}
-	
+
 	function nextMonth() {
 		currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1);
 	}
-	
+
 	function selectDate(date: Date | null) {
 		if (!date) return;
-		const today = new Date();
+		const today = new SvelteDate();
 		today.setHours(0, 0, 0, 0);
-		if (date < today) return; // Pas de sélection de dates passées
-		
+		if (date < today) return; // Pas de selection de dates passees
+
 		selectedDate = date;
 		selectedTime = null; // Reset time selection
 	}
-	
+
 	function selectTime(time: string) {
 		selectedTime = time;
 	}
-	
+
 	function isDateDisabled(date: Date | null): boolean {
 		if (!date) return true;
-		const today = new Date();
+		const today = new SvelteDate();
 		today.setHours(0, 0, 0, 0);
 		if (date < today) return true;
-		
-		// Dimanche désactivé
+
+		// Dimanche desactive
 		if (date.getDay() === 0) return true;
-		
+
 		return false;
 	}
-	
+
 	function isDateSelected(date: Date | null): boolean {
 		if (!date || !selectedDate) return false;
 		return date.toDateString() === selectedDate.toDateString();
 	}
-	
+
 	function formatDate(date: Date): string {
 		return new Intl.DateTimeFormat('fr-FR', {
 			weekday: 'long',
@@ -97,17 +125,17 @@
 			day: 'numeric'
 		}).format(date);
 	}
-	
+
 	function handleSubmit(e: Event) {
 		e.preventDefault();
-		
+
 		if (!selectedDate || !selectedTime) {
-			alert('Veuillez sélectionner une date et une heure');
+			alert('Veuillez selectionner une date et une heure');
 			return;
 		}
-		
+
 		showConfirmation = true;
-		
+
 		// TODO: Envoyer la demande au backend ou par email
 		console.log('Demande de RDV:', {
 			date: selectedDate,
@@ -115,7 +143,7 @@
 			...formData
 		});
 	}
-	
+
 	function resetForm() {
 		selectedDate = null;
 		selectedTime = null;
@@ -126,16 +154,17 @@
 
 <section class="appointment-section" id="appointment">
 	<div class="container">
-		<!-- En-tête -->
+		<!-- En-tete -->
 		<div class="section-header">
 			<h2 class="section-title">{appointment.title}</h2>
 			<p class="section-subtitle">{appointment.subtitle}</p>
+			<HeaderOrnament />
 			<div class="note">{appointment.note}</div>
 		</div>
 
-		<!-- Bénéfices -->
+		<!-- Benefices -->
 		<div class="benefits-grid">
-			{#each appointment.benefits as benefit}
+			{#each appointment.benefits as benefit (`${benefit.title}-${benefit.icon}`)}
 				<div class="benefit-card">
 					<div class="benefit-icon">{benefit.icon}</div>
 					<h3 class="benefit-title">{benefit.title}</h3>
@@ -150,21 +179,25 @@
 				<!-- Calendrier -->
 				<div class="calendar-section">
 					<div class="calendar-header">
-						<button class="month-nav" onclick={previousMonth} aria-label="Mois précédent">‹</button>
+						<button class="month-nav" onclick={previousMonth} aria-label="Mois precedent"
+							>&lsaquo;</button
+						>
 						<h3 class="month-title">
-							{monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
+							{monthNames[currentDate.getMonth()]}
+							{currentDate.getFullYear()}
 						</h3>
-						<button class="month-nav" onclick={nextMonth} aria-label="Mois suivant">›</button>
+						<button class="month-nav" onclick={nextMonth} aria-label="Mois suivant">&rsaquo;</button
+						>
 					</div>
 
 					<div class="calendar-grid">
 						<!-- Jours de la semaine -->
-						{#each dayNames as day}
+						{#each dayNames as day (day)}
 							<div class="day-name">{day}</div>
 						{/each}
 
 						<!-- Jours du mois -->
-						{#each calendarDays() as date}
+						{#each calendarDays() as date, index (`${date ? date.toISOString() : 'empty'}-${index}`)}
 							<button
 								class="calendar-day"
 								class:disabled={isDateDisabled(date)}
@@ -185,15 +218,15 @@
 				<div class="booking-form-section">
 					{#if selectedDate}
 						<div class="selected-date-display">
-							<span class="date-icon">📅</span>
+							<span class="date-icon">&#x1F4C5;</span>
 							<span class="date-text">{formatDate(selectedDate)}</span>
 						</div>
 
-						<!-- Créneaux horaires -->
+						<!-- Creneaux horaires -->
 						<div class="time-slots">
 							<h4 class="time-slots-title">Choisissez un horaire</h4>
 							<div class="time-grid">
-								{#each timeSlots as time}
+								{#each timeSlots as time (time)}
 									<button
 										class="time-slot"
 										class:selected={selectedTime === time}
@@ -232,7 +265,7 @@
 									</div>
 
 									<div class="form-group">
-										<label for="apt-phone">Téléphone *</label>
+										<label for="apt-phone">Telephone *</label>
 										<input
 											type="tel"
 											id="apt-phone"
@@ -248,20 +281,20 @@
 									<textarea
 										id="apt-message"
 										bind:value={formData.message}
-										placeholder="Précisez vos besoins..."
+										placeholder="Precisez vos besoins..."
 										rows="3"
 									></textarea>
 								</div>
 
 								<button type="submit" class="submit-button">
-									📅 Demander ce rendez-vous
+									&#x1F4C5; Demander ce rendez-vous
 								</button>
 							</form>
 						{/if}
 					{:else}
 						<div class="select-date-prompt">
-							<span class="prompt-icon">📅</span>
-							<p class="prompt-text">Sélectionnez une date dans le calendrier</p>
+							<span class="prompt-icon">&#x1F4C5;</span>
+							<p class="prompt-text">Selectionnez une date dans le calendrier</p>
 						</div>
 					{/if}
 				</div>
@@ -269,29 +302,32 @@
 		{:else}
 			<!-- Confirmation -->
 			<div class="confirmation-message">
-				<div class="confirmation-icon">✅</div>
-				<h3 class="confirmation-title">Demande de rendez-vous envoyée !</h3>
+				<div class="confirmation-icon">&#9989;</div>
+				<h3 class="confirmation-title">Demande de rendez-vous envoyee !</h3>
 				<p class="confirmation-text">
-					Votre demande pour le <strong>{selectedDate ? formatDate(selectedDate) : ''}</strong> à
-					<strong>{selectedTime}</strong> a bien été enregistrée.
+					Votre demande pour le <strong>{selectedDate ? formatDate(selectedDate) : ''}</strong> a
+					<strong>{selectedTime}</strong> a bien ete enregistree.
 				</p>
 				<p class="confirmation-note">
-					Julian vous contactera par téléphone au <strong>{formData.phone}</strong> pour confirmer ce
+					Julian vous contactera par telephone au <strong>{formData.phone}</strong> pour confirmer ce
 					rendez-vous.
 				</p>
-				<button class="reset-button" onclick={resetForm}>
-					Faire une nouvelle demande
-				</button>
+				<button class="reset-button" onclick={resetForm}> Faire une nouvelle demande </button>
 			</div>
 		{/if}
 
 		<!-- Contact direct -->
 		<div class="direct-contact">
-			<p>Vous préférez le contact direct ?</p>
+			<p>Vous preferez le contact direct ?</p>
 			<a href="tel:{siteConfig.phone.replace(/\s/g, '')}" class="phone-link">
-				📞 Appelez maintenant : {siteConfig.phone}
+				&#x1F4DE; Appelez maintenant : {siteConfig.phone}
 			</a>
 		</div>
+	</div>
+
+	<!-- Divider -->
+	<div class="section-divider" aria-hidden="true">
+		<SectionDivider colorFrom="#664d38" colorTo="#584331" height={120} />
 	</div>
 </section>
 
@@ -299,7 +335,7 @@
 	.appointment-section {
 		position: relative;
 		padding: 6rem 2rem;
-		background: linear-gradient(180deg, #388e3c 0%, #2e7d32 50%, #1b5e20 100%);
+		background: #7b5d43;
 		overflow: hidden;
 	}
 
@@ -310,7 +346,7 @@
 		margin: 0 auto;
 	}
 
-	/* En-tête */
+	/* En-tete */
 	.section-header {
 		text-align: center;
 		margin-bottom: 3rem;
@@ -319,14 +355,14 @@
 	.section-title {
 		font-size: clamp(2rem, 5vw, 3.5rem);
 		font-weight: 800;
-		color: #e8f5e9;
+		color: #f8f1e8;
 		margin-bottom: 1rem;
 		text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
 	}
 
 	.section-subtitle {
 		font-size: clamp(1.125rem, 2.5vw, 1.375rem);
-		color: #c8e6c9;
+		color: #eddcc8;
 		max-width: 700px;
 		margin: 0 auto 1.5rem;
 		line-height: 1.6;
@@ -335,15 +371,15 @@
 	.note {
 		display: inline-block;
 		padding: 0.75rem 1.5rem;
-		background: rgba(255, 152, 0, 0.2);
-		border: 2px solid #ff9800;
+		background: rgba(95, 115, 50, 0.18);
+		border: 2px solid rgba(66, 99, 27, 0.36);
 		border-radius: 0.5rem;
-		color: #ffe0b2;
+		color: #f6ece0;
 		font-weight: 600;
 		font-size: 0.9375rem;
 	}
 
-	/* Bénéfices */
+	/* Benefices */
 	.benefits-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -368,13 +404,13 @@
 	.benefit-title {
 		font-size: 1.25rem;
 		font-weight: 700;
-		color: #c8e6c9;
+		color: #f2e5d5;
 		margin-bottom: 0.5rem;
 	}
 
 	.benefit-description {
 		font-size: 1rem;
-		color: #a5d6a7;
+		color: #e1cdb4;
 		margin: 0;
 	}
 
@@ -386,7 +422,7 @@
 		background: white;
 		border-radius: 1.5rem;
 		padding: 2.5rem;
-		box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 		margin-bottom: 3rem;
 	}
 
@@ -406,7 +442,7 @@
 	.month-title {
 		font-size: 1.25rem;
 		font-weight: 700;
-		color: #1b5e20;
+		color: #4a3a2a;
 		margin: 0;
 	}
 
@@ -414,10 +450,10 @@
 		width: 36px;
 		height: 36px;
 		border: none;
-		background: #f1f8e9;
+		background: #f5ecdf;
 		border-radius: 50%;
 		font-size: 1.5rem;
-		color: #2e7d32;
+		color: #5f4b37;
 		cursor: pointer;
 		transition: all 0.2s ease;
 		display: flex;
@@ -426,7 +462,8 @@
 	}
 
 	.month-nav:hover {
-		background: #c8e6c9;
+		background: var(--brand-green-pastel);
+		color: var(--brand-brown);
 		transform: scale(1.1);
 	}
 
@@ -440,7 +477,7 @@
 		text-align: center;
 		font-size: 0.75rem;
 		font-weight: 700;
-		color: #558b2f;
+		color: #786249;
 		padding: 0.5rem 0;
 		text-transform: uppercase;
 	}
@@ -448,23 +485,24 @@
 	.calendar-day {
 		aspect-ratio: 1;
 		border: none;
-		background: #f1f8e9;
+		background: #f5ecdf;
 		border-radius: 0.5rem;
 		font-size: 0.875rem;
 		font-weight: 600;
-		color: #2e7d32;
+		color: #5f4b37;
 		cursor: pointer;
 		transition: all 0.2s ease;
 	}
 
 	.calendar-day:hover:not(.disabled):not(.empty) {
-		background: #c8e6c9;
+		background: var(--brand-green-pastel);
+		color: var(--brand-brown);
 		transform: scale(1.1);
 	}
 
 	.calendar-day.selected {
-		background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
-		color: white;
+		background: var(--brand-green-pastel);
+		color: var(--brand-brown);
 	}
 
 	.calendar-day.disabled {
@@ -481,7 +519,7 @@
 
 	.availability-note {
 		font-size: 0.8125rem;
-		color: #558b2f;
+		color: #786249;
 		font-style: italic;
 		text-align: center;
 		padding: 0.75rem;
@@ -501,8 +539,8 @@
 		align-items: center;
 		gap: 0.75rem;
 		padding: 1rem 1.5rem;
-		background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
-		color: white;
+		background: var(--brand-green-pastel);
+		color: var(--brand-brown);
 		border-radius: 0.75rem;
 		font-size: 1.125rem;
 		font-weight: 600;
@@ -516,7 +554,7 @@
 	.time-slots-title {
 		font-size: 1.125rem;
 		font-weight: 700;
-		color: #1b5e20;
+		color: #4a3a2a;
 		margin: 0 0 1rem;
 	}
 
@@ -528,25 +566,25 @@
 
 	.time-slot {
 		padding: 0.75rem;
-		border: 2px solid #c8e6c9;
+		border: 2px solid #e7dbc9;
 		background: white;
 		border-radius: 0.5rem;
 		font-size: 0.9375rem;
 		font-weight: 600;
-		color: #2e7d32;
+		color: #5f4b37;
 		cursor: pointer;
 		transition: all 0.2s ease;
 	}
 
 	.time-slot:hover {
-		border-color: #4a7c2c;
+		border-color: var(--brand-green-soft);
 		background: #f1f8e9;
 	}
 
 	.time-slot.selected {
-		background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
-		color: white;
-		border-color: #2d5016;
+		background: var(--brand-green-pastel);
+		color: var(--brand-brown);
+		border-color: var(--brand-green);
 	}
 
 	/* Select Date Prompt */
@@ -567,7 +605,7 @@
 
 	.prompt-text {
 		font-size: 1.125rem;
-		color: #558b2f;
+		color: #786249;
 		margin: 0;
 	}
 
@@ -592,14 +630,14 @@
 
 	.form-group label {
 		font-weight: 600;
-		color: #1b5e20;
+		color: #4a3a2a;
 		font-size: 0.9375rem;
 	}
 
 	.form-group input,
 	.form-group textarea {
 		padding: 0.875rem;
-		border: 2px solid #c8e6c9;
+		border: 2px solid #e7dbc9;
 		border-radius: 0.5rem;
 		font-size: 1rem;
 		font-family: inherit;
@@ -609,13 +647,13 @@
 	.form-group input:focus,
 	.form-group textarea:focus {
 		outline: none;
-		border-color: #2d5016;
-		box-shadow: 0 0 0 3px rgba(45, 80, 22, 0.1);
+		border-color: var(--brand-green-soft);
+		box-shadow: 0 0 0 3px rgba(66, 99, 27, 0.1);
 	}
 
 	.submit-button {
 		padding: 1rem 2rem;
-		background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
+		background: var(--brand-brown-soft);
 		color: white;
 		border: none;
 		border-radius: 0.75rem;
@@ -626,9 +664,15 @@
 	}
 
 	.submit-button:hover {
-		background: linear-gradient(135deg, #3a6b1e 0%, #5a9c3c 100%);
+		background: var(--brand-green-pastel);
+		color: var(--brand-brown);
 		transform: translateY(-2px);
-		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+		box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+	}
+
+	.submit-button:focus-visible {
+		outline: 2px solid var(--brand-green-pastel);
+		outline-offset: 2px;
 	}
 
 	/* Confirmation */
@@ -637,7 +681,7 @@
 		padding: 4rem 2rem;
 		background: white;
 		border-radius: 1.5rem;
-		box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 		margin-bottom: 3rem;
 	}
 
@@ -649,27 +693,27 @@
 	.confirmation-title {
 		font-size: 2rem;
 		font-weight: 700;
-		color: #1b5e20;
+		color: #4a3a2a;
 		margin-bottom: 1rem;
 	}
 
 	.confirmation-text,
 	.confirmation-note {
 		font-size: 1.125rem;
-		color: #2e7d32;
+		color: #5f4b37;
 		line-height: 1.6;
 		margin: 0 0 1rem;
 	}
 
 	.confirmation-note {
 		font-size: 1rem;
-		color: #558b2f;
+		color: #786249;
 	}
 
 	.reset-button {
 		margin-top: 2rem;
 		padding: 0.875rem 2rem;
-		background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
+		background: var(--brand-brown-soft);
 		color: white;
 		border: none;
 		border-radius: 0.75rem;
@@ -680,7 +724,14 @@
 	}
 
 	.reset-button:hover {
+		background: var(--brand-green-pastel);
+		color: var(--brand-brown);
 		transform: translateY(-2px);
+	}
+
+	.reset-button:focus-visible {
+		outline: 2px solid var(--brand-green-pastel);
+		outline-offset: 2px;
 	}
 
 	/* Direct Contact */
@@ -693,7 +744,7 @@
 	}
 
 	.direct-contact p {
-		color: #c8e6c9;
+		color: #e7dbc9;
 		font-size: 1.125rem;
 		margin: 0 0 1rem;
 	}
@@ -704,7 +755,7 @@
 		gap: 0.5rem;
 		padding: 1rem 2rem;
 		background: white;
-		color: #2d5016;
+		color: #6a5a3d;
 		border-radius: 9999px;
 		text-decoration: none;
 		font-weight: 600;
@@ -714,7 +765,7 @@
 
 	.phone-link:hover {
 		transform: translateY(-2px);
-		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+		box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
 	}
 
 	/* Mobile */

@@ -1,16 +1,16 @@
 <script lang="ts">
 	import { siteConfig } from '$lib/data/content';
-	
+
 	let { class: className = '' } = $props();
-	
+
 	// Format le numéro pour le lien tel:
 	const phoneLink = siteConfig.phone.replace(/\s/g, '');
 </script>
 
 <a
-	href="tel:{phoneLink}"
-	class="phone-button {className}"
-	aria-label="Appeler {siteConfig.name}"
+	href={'tel:' + phoneLink}
+	class={'phone-button ' + className}
+	aria-label={'Appeler ' + siteConfig.name}
 >
 	<svg
 		class="phone-icon"
@@ -35,7 +35,7 @@
 		align-items: center;
 		gap: 0.75rem;
 		padding: 1rem 1.5rem;
-		background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
+		background: var(--brand-brown-soft);
 		color: white;
 		border-radius: 9999px;
 		font-weight: 600;
@@ -52,7 +52,13 @@
 		box-shadow:
 			0 20px 25px -5px rgba(0, 0, 0, 0.1),
 			0 10px 10px -5px rgba(0, 0, 0, 0.04);
-		background: linear-gradient(135deg, #3a6b1e 0%, #5a9c3c 100%);
+		background: var(--brand-green-pastel);
+		color: var(--brand-brown);
+	}
+
+	.phone-button:focus-visible {
+		outline: 2px solid var(--brand-green-pastel);
+		outline-offset: 2px;
 	}
 
 	.phone-button:active {

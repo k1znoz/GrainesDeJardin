@@ -1,9 +1,11 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { services } from '$lib/data/content';
 	import { onMount } from 'svelte';
-	
+	import SectionDivider from '$lib/components/ui/SectionDivider.svelte';
+	import HeaderOrnament from '$lib/components/ui/HeaderOrnament.svelte';
+
 	let serviceCards: HTMLElement[] = [];
-	
+
 	onMount(() => {
 		const observer = new IntersectionObserver(
 			(entries) => {
@@ -28,12 +30,12 @@
 </script>
 
 <section class="services-section" id="services">
-	<!-- Décor : branches en arrière-plan -->
+	<!-- Decor : branches en arriere-plan -->
 	<div class="branches-background">
 		<svg class="branch branch-1" viewBox="0 0 200 400">
 			<path
 				d="M 20 0 Q 40 100 80 200 L 150 400"
-				stroke="#2d5016"
+				stroke="#6a5a3d"
 				stroke-width="4"
 				fill="none"
 				opacity="0.1"
@@ -42,7 +44,7 @@
 		<svg class="branch branch-2" viewBox="0 0 200 400">
 			<path
 				d="M 180 0 Q 160 100 120 200 L 50 400"
-				stroke="#2d5016"
+				stroke="#6a5a3d"
 				stroke-width="4"
 				fill="none"
 				opacity="0.1"
@@ -51,28 +53,25 @@
 	</div>
 
 	<div class="container">
-		<!-- En-tête -->
+		<!-- En-tete -->
 		<div class="section-header">
 			<h2 class="section-title">{services.title}</h2>
 			<p class="section-subtitle">{services.subtitle}</p>
+			<HeaderOrnament />
 			<div class="note">{services.note}</div>
 		</div>
 
 		<!-- Grille de services -->
 		<div class="services-grid">
-			{#each services.list as service, i}
-				<div
-					class="service-card"
-					bind:this={serviceCards[i]}
-					style="--delay: {i * 0.15}s"
-				>
+			{#each services.list as service, i (`${service.name}-${i}`)}
+				<div class="service-card" bind:this={serviceCards[i]} style="--delay: {i * 0.15}s">
 					<div class="service-icon">{service.icon}</div>
 					<h3 class="service-name">{service.name}</h3>
 					<p class="service-description">{service.description}</p>
 					<ul class="service-features">
-						{#each service.features as feature}
+						{#each service.features as feature, featureIndex (`${service.name}-${feature}-${featureIndex}`)}
 							<li>
-								<span class="check-icon">✓</span>
+								<span class="check-icon">&#10003;</span>
 								{feature}
 							</li>
 						{/each}
@@ -81,17 +80,22 @@
 			{/each}
 		</div>
 	</div>
+
+	<!-- Divider -->
+	<div class="section-divider" aria-hidden="true">
+		<SectionDivider colorFrom="#b2916b" colorTo="#9f7e5b" height={120} />
+	</div>
 </section>
 
 <style>
 	.services-section {
 		position: relative;
 		padding: 6rem 2rem;
-		background: linear-gradient(180deg, #66bb6a 0%, #4caf50 50%, #43a047 100%);
+		background: #c4aa84;
 		overflow: hidden;
 	}
 
-	/* Décor branches */
+	/* Decor branches */
 	.branches-background {
 		position: absolute;
 		inset: 0;
@@ -122,7 +126,7 @@
 		margin: 0 auto;
 	}
 
-	/* En-tête */
+	/* En-tete */
 	.section-header {
 		text-align: center;
 		margin-bottom: 4rem;
@@ -131,14 +135,14 @@
 	.section-title {
 		font-size: clamp(2rem, 5vw, 3.5rem);
 		font-weight: 800;
-		color: #1b5e20;
+		color: #3a3023;
 		margin-bottom: 1rem;
 		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 	}
 
 	.section-subtitle {
 		font-size: clamp(1.125rem, 2.5vw, 1.375rem);
-		color: #2e7d32;
+		color: #5d4d38;
 		max-width: 700px;
 		margin: 0 auto 1.5rem;
 		line-height: 1.6;
@@ -148,9 +152,9 @@
 		display: inline-block;
 		padding: 0.75rem 1.5rem;
 		background: rgba(255, 255, 255, 0.9);
-		border-left: 4px solid #ff6f00;
+		border-left: 4px solid var(--brand-green-soft);
 		border-radius: 0.5rem;
-		color: #e65100;
+		color: #5a4833;
 		font-weight: 600;
 		font-size: 1rem;
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -169,7 +173,7 @@
 		background: white;
 		padding: 2.5rem;
 		border-radius: 1.5rem;
-		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
 		transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 		opacity: 0;
 		transform: translateY(30px) scale(0.95);
@@ -185,13 +189,14 @@
 		left: 0;
 		right: 0;
 		height: 6px;
-		background: linear-gradient(90deg, #2d5016 0%, #4a7c2c 100%);
+		background: var(--brand-brown-soft);
 		transform: scaleX(0);
 		transform-origin: left;
 		transition: transform 0.4s ease;
 	}
 
 	.service-card:hover::before {
+		background: var(--brand-green-pastel);
 		transform: scaleX(1);
 	}
 
@@ -202,7 +207,7 @@
 
 	.service-card:hover {
 		transform: translateY(-10px) scale(1.02);
-		box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+		box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
 	}
 
 	.service-icon {
@@ -224,13 +229,13 @@
 	.service-name {
 		font-size: 1.75rem;
 		font-weight: 700;
-		color: #1b5e20;
+		color: #4a3a2a;
 		margin-bottom: 1rem;
 	}
 
 	.service-description {
 		font-size: 1.0625rem;
-		color: #558b2f;
+		color: #705d45;
 		line-height: 1.7;
 		margin-bottom: 1.5rem;
 	}
@@ -246,7 +251,7 @@
 		align-items: center;
 		gap: 0.75rem;
 		padding: 0.5rem 0;
-		color: #2e7d32;
+		color: #64543e;
 		font-size: 0.9375rem;
 		font-weight: 500;
 	}
@@ -257,7 +262,7 @@
 		justify-content: center;
 		width: 24px;
 		height: 24px;
-		background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
+		background: var(--brand-brown-soft);
 		color: white;
 		border-radius: 50%;
 		font-weight: 700;

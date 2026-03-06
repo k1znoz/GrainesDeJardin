@@ -7,7 +7,9 @@ Site web vitrine pour Julian Lemoine, paysagiste avec 14 ans d'expérience spéc
 ## 🎨 Concept créatif
 
 ### Métaphore de la liane
+
 Chaque section représente une étape de la descente :
+
 1. **Canopée** (Hero) - Vue d'ensemble, présentation
 2. **Tronc** (Expérience) - Solidité, parcours professionnel
 3. **Branches** (Services) - Extension des compétences
@@ -16,6 +18,7 @@ Chaque section représente une étape de la descente :
 6. **Sous terre** (Contact) - Connexion profonde
 
 ### Design
+
 - Palette naturelle : verts, beiges, terre
 - Animations fluides et organiques
 - Scroll storytelling immersif
@@ -74,6 +77,7 @@ npm run preview
 **Tout le contenu est centralisé dans `src/lib/data/content.ts`**
 
 Pour modifier :
+
 - Textes de toutes les sections
 - Numéro de téléphone
 - Email
@@ -86,6 +90,7 @@ Pour modifier :
 ## 🎯 Fonctionnalités principales
 
 ### Implémentées
+
 ✅ Page vitrine SPA complète
 ✅ Scroll storytelling avec animations
 ✅ Timeline d'expérience visuelle
@@ -98,6 +103,7 @@ Pour modifier :
 ✅ SEO de base (meta tags)
 
 ### À implémenter (Phase 2)
+
 ⏳ Connexion formulaire à un service d'envoi (Formspree, EmailJS, etc.)
 ⏳ Agenda interactif (Calendly ou custom)
 ⏳ Système d'avis dynamique
@@ -106,6 +112,7 @@ Pour modifier :
 ## 📝 À personnaliser AVANT le déploiement
 
 Dans `src/lib/data/content.ts`, modifier :
+
 1. `siteConfig.phone` - Numéro de téléphone réel
 2. `siteConfig.email` - Email réel
 3. `siteConfig.address` - Ville/région d'intervention
@@ -115,14 +122,18 @@ Dans `src/lib/data/content.ts`, modifier :
 ## 🎨 Personnalisation du design
 
 ### Palette de couleurs
+
 Les couleurs principales sont définies dans les gradients de chaque section. Pour les modifier :
+
 - Hero : [HeroSection.svelte](src/lib/components/sections/HeroSection.svelte) ligne ~71
 - Experience : [ExperienceTimeline.svelte](src/lib/components/sections/ExperienceTimeline.svelte) ligne ~87
 - Services : [ServicesSection.svelte](src/lib/components/sections/ServicesSection.svelte) ligne ~79
 - Etc.
 
 ### Animations
+
 Toutes les animations utilisent :
+
 - Intersection Observer pour le scroll
 - Transitions CSS natives
 - Pas de dépendance externe
@@ -130,6 +141,7 @@ Toutes les animations utilisent :
 ## 📱 Contact & Support
 
 Pour toute question sur le développement :
+
 - Référez-vous aux commentaires dans le code
 - Consultez la documentation SvelteKit : https://kit.svelte.dev/
 - Consultez la documentation Svelte 5 : https://svelte.dev/
@@ -137,15 +149,18 @@ Pour toute question sur le développement :
 ## 📦 Déploiement
 
 Le site peut être déployé sur :
+
 - **Vercel** (recommandé pour SvelteKit)
 - **Netlify**
 - **Cloudflare Pages**
 - N'importe quel hébergeur Node.js
 
 ### Configuration de l'adapter
+
 Par défaut, le projet utilise `@sveltejs/adapter-auto` qui s'adapte automatiquement à la plateforme de déploiement.
 
 Pour un déploiement statique :
+
 ```bash
 npm install -D @sveltejs/adapter-static
 ```
@@ -155,18 +170,21 @@ Puis modifier `svelte.config.js` pour utiliser `adapter-static`.
 ## 🔮 Évolution future
 
 ### Court terme
+
 - Connecter le formulaire de contact
 - Ajouter Google Analytics / Plausible
 - Optimiser les images (WebP, lazy loading avancé)
 - Implémenter un agenda de prise de RDV
 
 ### Moyen terme
+
 - Intégrer Sanity CMS pour gestion de contenu dynamique
 - Ajouter un blog/actualités
 - Espace client avec historique d'interventions
 - Galerie photos avant/après
 
 ### Long terme
+
 - Application mobile compagnon
 - Système de gestion de planning complet
 - Facturation intégrée

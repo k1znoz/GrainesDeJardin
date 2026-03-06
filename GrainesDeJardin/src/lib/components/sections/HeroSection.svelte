@@ -1,11 +1,12 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { hero, siteConfig } from '$lib/data/content';
 	import PhoneButton from '$lib/components/ui/PhoneButton.svelte';
+	import SectionDivider from '$lib/components/ui/SectionDivider.svelte';
 	import { onMount } from 'svelte';
-	
+
 	let scrollY = $state(0);
 	let mounted = $state(false);
-	
+
 	onMount(() => {
 		mounted = true;
 		const handleScroll = () => {
@@ -14,32 +15,35 @@
 		window.addEventListener('scroll', handleScroll);
 		return () => window.removeEventListener('scroll', handleScroll);
 	});
-	
+
 	// Parallax et fade out au scroll - fade plus progressif
 	$effect(() => {
 		if (mounted) {
-			// Fade out plus lent et progressif (de 0 à 1200px de scroll)
+			// Fade out plus lent et progressif (de 0 a 1200px de scroll)
 			const opacity = Math.max(0, 1 - scrollY / 1200);
-			// Opacité du contenu encore plus progressive
+			// Opacite du contenu encore plus progressive
 			const contentOpacity = Math.max(0, 1 - scrollY / 800);
 			const translateY = scrollY * 0.5;
 			// Scale down progressif pour un effet de recul
 			const scale = Math.max(0.8, 1 - scrollY / 2000);
-			
+
 			document.documentElement.style.setProperty('--hero-opacity', opacity.toString());
-			document.documentElement.style.setProperty('--hero-content-opacity', contentOpacity.toString());
+			document.documentElement.style.setProperty(
+				'--hero-content-opacity',
+				contentOpacity.toString()
+			);
 			document.documentElement.style.setProperty('--hero-translate', `${translateY}px`);
 			document.documentElement.style.setProperty('--hero-scale', scale.toString());
 		}
 	});
 </script>
 
-<section class="hero-section">
-	<!-- Canopée animée en arrière-plan -->
+<section class="hero-section" id="hero">
+	<!-- Canopee animee en arriere-plan -->
 	<div class="canopy-background">
 		<div class="leaves-layer">
-			{#each Array(20) as _, i}
-				<div class="leaf" style="--i: {i}">🍃</div>
+			{#each Array.from({ length: 20 }, (_, i) => i) as i (i)}
+				<div class="leaf" style="--i: {i}">&#x1F343;</div>
 			{/each}
 		</div>
 	</div>
@@ -48,7 +52,11 @@
 	<div class="hero-content">
 		<!-- Logo -->
 		<div class="logo-container animate-fade-in">
-			<img src="/Ressources/Graines-de-Jardin-Logo.PNG" alt="{siteConfig.name} - Logo" class="logo" />
+			<img
+				src="/Ressources/Graines-de-Jardin-Logo.PNG"
+				alt={siteConfig.name + ' - Logo'}
+				class="logo"
+			/>
 		</div>
 
 		<!-- Titre principal -->
@@ -80,20 +88,25 @@
 		<svg class="vine-svg" viewBox="0 0 100 400" preserveAspectRatio="none">
 			<path
 				d="M 50 0 Q 30 100 50 200 Q 70 300 50 400"
-				stroke="#2d5016"
+				stroke="var(--brand-green)"
 				stroke-width="3"
 				fill="none"
 				stroke-linecap="round"
 			/>
 			<!-- Feuilles le long de la liane -->
-			<circle cx="50" cy="100" r="8" fill="#4a7c2c" opacity="0.6" />
-			<circle cx="50" cy="200" r="8" fill="#4a7c2c" opacity="0.6" />
-			<circle cx="50" cy="300" r="8" fill="#4a7c2c" opacity="0.6" />
+			<circle cx="50" cy="100" r="8" fill="var(--brand-green-soft)" opacity="0.62" />
+			<circle cx="50" cy="200" r="8" fill="var(--brand-green-soft)" opacity="0.62" />
+			<circle cx="50" cy="300" r="8" fill="var(--brand-green-soft)" opacity="0.62" />
 		</svg>
 		<div class="scroll-indicator">
-			<span>↓</span>
+			<span>&darr;</span>
 			<span class="scroll-text">Descendre</span>
 		</div>
+	</div>
+
+	<!-- Divider SVG pour transition vers la section suivante -->
+	<div class="section-divider" aria-hidden="true">
+		<SectionDivider colorFrom="#dcc7ab" colorTo="#cdb292" height={140} />
 	</div>
 </section>
 
@@ -105,13 +118,18 @@
 		align-items: center;
 		justify-content: center;
 		overflow: hidden;
-		background: linear-gradient(180deg, #e8f5e9 0%, #c8e6c9 50%, #a5d6a7 100%);
+		background-color: #dcc7ab;
+		background-image: radial-gradient(
+			900px 360px at 10% 0%,
+			rgba(255, 255, 255, 0.42) 0%,
+			rgba(255, 255, 255, 0) 70%
+		);
 		opacity: var(--hero-opacity, 1);
 		transition: opacity 0.1s ease-out;
 		z-index: 1;
 	}
 
-	/* Canopée animée */
+	/* Canopee animee */
 	.canopy-background {
 		position: absolute;
 		inset: 0;
@@ -152,7 +170,7 @@
 		}
 	}
 
-	/* Contenu héro */
+	/* Contenu hero */
 	.hero-content {
 		position: relative;
 		z-index: 10;
@@ -161,7 +179,9 @@
 		padding: 2rem;
 		transform: translateY(var(--hero-translate, 0)) scale(var(--hero-scale, 1));
 		opacity: var(--hero-content-opacity, 1);
-		transition: opacity 0.1s ease-out, transform 0.1s ease-out;
+		transition:
+			opacity 0.1s ease-out,
+			transform 0.1s ease-out;
 	}
 
 	.logo-container {
@@ -180,7 +200,7 @@
 	.hero-title {
 		font-size: clamp(2.5rem, 8vw, 5rem);
 		font-weight: 800;
-		color: #1b5e20;
+		color: #3a3023;
 		margin-bottom: 1rem;
 		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 		letter-spacing: -0.02em;
@@ -188,14 +208,14 @@
 
 	.hero-subtitle {
 		font-size: clamp(1.25rem, 3vw, 1.75rem);
-		color: #2e7d32;
+		color: #5d4d38;
 		margin-bottom: 1rem;
 		font-weight: 500;
 	}
 
 	.hero-baseline {
 		font-size: clamp(1rem, 2vw, 1.25rem);
-		color: #388e3c;
+		color: #715c42;
 		margin-bottom: 2.5rem;
 		font-style: italic;
 	}
@@ -212,8 +232,8 @@
 		align-items: center;
 		padding: 1rem 1.5rem;
 		background: white;
-		color: #2d5016;
-		border: 2px solid #2d5016;
+		color: var(--brand-brown-soft);
+		border: 2px solid var(--brand-brown-soft);
 		border-radius: 9999px;
 		font-weight: 600;
 		font-size: 1.125rem;
@@ -222,7 +242,7 @@
 	}
 
 	.cta-secondary:hover {
-		background: #2d5016;
+		background: var(--brand-green-pastel);
 		color: white;
 		transform: translateY(-2px);
 	}
@@ -251,7 +271,7 @@
 		flex-direction: column;
 		align-items: center;
 		gap: 0.5rem;
-		color: #2d5016;
+		color: var(--brand-green);
 		font-weight: 600;
 		animation: bounce 2s infinite;
 	}

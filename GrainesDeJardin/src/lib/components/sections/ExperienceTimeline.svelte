@@ -1,11 +1,13 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { experience } from '$lib/data/content';
 	import { onMount } from 'svelte';
-	
+	import SectionDivider from '$lib/components/ui/SectionDivider.svelte';
+	import HeaderOrnament from '$lib/components/ui/HeaderOrnament.svelte';
+
 	let timelineItems: HTMLElement[] = [];
-	
+
 	onMount(() => {
-		// Intersection Observer pour animer les éléments au scroll
+		// Intersection Observer pour animer les elements au scroll
 		const observer = new IntersectionObserver(
 			(entries) => {
 				entries.forEach((entry) => {
@@ -29,30 +31,27 @@
 </script>
 
 <section class="experience-section" id="experience">
-	<!-- Décor : tronc d'arbre en arrière-plan -->
+	<!-- Decor : tronc d'arbre en arriere-plan -->
 	<div class="trunk-background">
 		<div class="trunk"></div>
 		<div class="bark-texture"></div>
 	</div>
 
 	<div class="container">
-		<!-- En-tête de section -->
+		<!-- En-tete de section -->
 		<div class="section-header">
 			<h2 class="section-title">{experience.title}</h2>
 			<p class="section-intro">{experience.intro}</p>
+			<HeaderOrnament />
 		</div>
 
 		<!-- Timeline verticale -->
 		<div class="timeline">
 			<div class="timeline-line"></div>
 
-			{#each experience.timeline as item, i}
-				<div
-					class="timeline-item"
-					bind:this={timelineItems[i]}
-					style="--delay: {i * 0.15}s"
-				>
-					<!-- Icône / Point sur la timeline -->
+			{#each experience.timeline as item, i (`${item.year}-${item.title}-${i}`)}
+				<div class="timeline-item" bind:this={timelineItems[i]} style="--delay: {i * 0.15}s">
+					<!-- Icone / Point sur la timeline -->
 					<div class="timeline-marker">
 						<div class="marker-icon">{item.icon}</div>
 					</div>
@@ -67,21 +66,26 @@
 			{/each}
 		</div>
 
-		<!-- Résumé en chiffres -->
+		<!-- Resume en chiffres -->
 		<div class="stats-grid">
 			<div class="stat-item">
 				<div class="stat-number">14</div>
-				<div class="stat-label">ans d'expérience</div>
+				<div class="stat-label">ans d'experience</div>
 			</div>
 			<div class="stat-item">
 				<div class="stat-number">10</div>
-				<div class="stat-label">ans chef d'équipe</div>
+				<div class="stat-label">ans chef d'equipe</div>
 			</div>
 			<div class="stat-item">
 				<div class="stat-number">100%</div>
-				<div class="stat-label">passion du métier</div>
+				<div class="stat-label">passion du metier</div>
 			</div>
 		</div>
+	</div>
+
+	<!-- Divider -->
+	<div class="section-divider" aria-hidden="true">
+		<SectionDivider colorFrom="#c5aa88" colorTo="#b09170" height={120} />
 	</div>
 </section>
 
@@ -89,15 +93,15 @@
 	.experience-section {
 		position: relative;
 		padding: 6rem 2rem;
-		background: linear-gradient(180deg, #a5d6a7 0%, #81c784 50%, #66bb6a 100%);
+		background: #d5c0a0;
 		overflow: hidden;
-		/* Positionner en dessous du Hero au début */
+		/* Positionner en dessous du Hero au debut */
 		margin-top: -5vh;
 		padding-top: 8rem;
 		z-index: 10;
 	}
 
-	/* Décor tronc */
+	/* Decor tronc */
 	.trunk-background {
 		position: absolute;
 		left: 50%;
@@ -117,19 +121,14 @@
 		bottom: 0;
 		width: 80px;
 		transform: translateX(-50%);
-		background: repeating-linear-gradient(90deg, #3e2723 0px, #5d4037 10px, #3e2723 20px);
+		background: #4b392c;
 		border-radius: 40px;
 	}
 
 	.bark-texture {
 		position: absolute;
 		inset: 0;
-		background-image: repeating-linear-gradient(
-			0deg,
-			transparent 0px,
-			rgba(0, 0, 0, 0.1) 2px,
-			transparent 4px
-		);
+		background: rgba(0, 0, 0, 0.06);
 	}
 
 	.container {
@@ -139,7 +138,7 @@
 		margin: 0 auto;
 	}
 
-	/* En-tête */
+	/* En-tete */
 	.section-header {
 		text-align: center;
 		margin-bottom: 4rem;
@@ -148,14 +147,14 @@
 	.section-title {
 		font-size: clamp(2rem, 5vw, 3.5rem);
 		font-weight: 800;
-		color: #1b5e20;
+		color: #3a3023;
 		margin-bottom: 1.5rem;
 		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 	}
 
 	.section-intro {
 		font-size: clamp(1.125rem, 2.5vw, 1.375rem);
-		color: #2e7d32;
+		color: #5d4d38;
 		max-width: 700px;
 		margin: 0 auto;
 		line-height: 1.6;
@@ -174,10 +173,10 @@
 		top: 0;
 		bottom: 0;
 		width: 4px;
-		background: linear-gradient(180deg, #2d5016 0%, #4a7c2c 100%);
+		background: #6a5a3d;
 		transform: translateX(-50%);
 		border-radius: 2px;
-		box-shadow: 0 0 10px rgba(45, 80, 22, 0.3);
+		box-shadow: 0 0 6px rgba(106, 90, 61, 0.2);
 	}
 
 	.timeline-item {
@@ -221,13 +220,13 @@
 		width: 60px;
 		height: 60px;
 		background: white;
-		border: 4px solid #2d5016;
+		border: 4px solid #6a5a3d;
 		border-radius: 50%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		font-size: 1.75rem;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+		box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 		transition: transform 0.3s ease;
 	}
 
@@ -239,19 +238,21 @@
 		background: white;
 		padding: 2rem;
 		border-radius: 1rem;
-		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-		transition: transform 0.3s ease, box-shadow 0.3s ease;
+		box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+		transition:
+			transform 0.3s ease,
+			box-shadow 0.3s ease;
 	}
 
 	.timeline-card:hover {
 		transform: translateY(-5px);
-		box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+		box-shadow: 0 6px 18px rgba(0, 0, 0, 0.11);
 	}
 
 	.card-year {
 		display: inline-block;
 		padding: 0.375rem 0.875rem;
-		background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
+		background: var(--brand-brown-soft);
 		color: white;
 		border-radius: 9999px;
 		font-size: 0.875rem;
@@ -263,13 +264,13 @@
 	.card-title {
 		font-size: 1.5rem;
 		font-weight: 700;
-		color: #1b5e20;
+		color: #4a3a2a;
 		margin-bottom: 0.75rem;
 	}
 
 	.card-description {
 		font-size: 1rem;
-		color: #558b2f;
+		color: #705d45;
 		line-height: 1.6;
 	}
 
@@ -298,16 +299,13 @@
 	.stat-number {
 		font-size: 3rem;
 		font-weight: 900;
-		background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
+		color: #6a5a3d;
 		margin-bottom: 0.5rem;
 	}
 
 	.stat-label {
 		font-size: 1rem;
-		color: #558b2f;
+		color: #705d45;
 		font-weight: 600;
 		text-transform: uppercase;
 		letter-spacing: 0.05em;

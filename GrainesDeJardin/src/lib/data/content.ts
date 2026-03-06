@@ -5,22 +5,22 @@ export const siteConfig = {
 	name: 'Julian Lemoine',
 	title: 'Paysagiste & Entretien de Jardins',
 	phone: '06 XX XX XX XX', // À mettre à jour
-	email: 'grainesdejardin85@gmail.com', 
-	address: 'Sainte-Foy, 85150 France' 
+	email: 'grainesdejardin85@gmail.com',
+	address: 'Sainte-Foy, 85150 France'
 };
 
 export const hero = {
 	title: 'Graines de Jardin',
-	subtitle: 'L\'entretien de votre jardin confié à un expert',
-	baseline: '14 ans d\'expérience au service de vos espaces verts',
+	subtitle: "L'entretien de votre jardin confié à un expert",
+	baseline: "14 ans d'expérience au service de vos espaces verts",
 	cta: 'Demander un devis',
 	ctaPhone: 'Appeler maintenant'
 };
 
 export const experience = {
-	title: 'Un parcours enraciné dans l\'excellence',
+	title: "Un parcours enraciné dans l'excellence",
 	intro:
-		'Passionné depuis toujours, j\'ai construit mon expertise au fil des années pour vous offrir un service professionnel et sur-mesure.',
+		"Passionné depuis toujours, j'ai construit mon expertise au fil des années pour vous offrir un service professionnel et sur-mesure.",
 	timeline: [
 		{
 			year: '2010',
@@ -31,18 +31,18 @@ export const experience = {
 		{
 			year: '2012',
 			title: 'Bac Pro Paysagiste',
-			description: '4 ans d\'apprentissage terrain durant mes études',
+			description: "4 ans d'apprentissage terrain durant mes études",
 			icon: '🌿'
 		},
 		{
 			year: '2012-2022',
-			title: 'Chef d\'équipe',
+			title: "Chef d'équipe",
 			description: '10 ans de management dans une grande entreprise du secteur',
 			icon: '🌳'
 		},
 		{
 			year: '2012-2026',
-			title: '14 ans d\'activité',
+			title: "14 ans d'activité",
 			description: 'Une expertise confirmée, des centaines de jardins entretenus',
 			icon: '🏆'
 		}
@@ -50,9 +50,10 @@ export const experience = {
 };
 
 export const services = {
-	title: 'Des services d\'entretien professionnels',
-	subtitle: 'Je me concentre exclusivement sur l\'entretien, pour un travail de qualité irréprochable',
-	note: '⚠️ Pas de création paysagère – uniquement de l\'entretien expert',
+	title: "Des services d'entretien professionnels",
+	subtitle:
+		"Je me concentre exclusivement sur l'entretien, pour un travail de qualité irréprochable",
+	note: "⚠️ Pas de création paysagère – uniquement de l'entretien expert",
 	list: [
 		{
 			name: 'Tonte',
@@ -71,7 +72,7 @@ export const services = {
 		{
 			name: 'Entretien global',
 			description:
-				'Désherbage, nettoyage, ramassage de feuilles. Votre jardin impeccable toute l\'année.',
+				"Désherbage, nettoyage, ramassage de feuilles. Votre jardin impeccable toute l'année.",
 			icon: '🧹',
 			features: ['Désherbage manuel', 'Nettoyage saisonnier', 'Suivi régulier']
 		}
@@ -85,13 +86,14 @@ export const pricing = {
 		{
 			step: '1',
 			title: 'Premier rendez-vous',
-			description: 'Je me déplace gratuitement pour évaluer vos besoins et l\'état de votre jardin.',
+			description: "Je me déplace gratuitement pour évaluer vos besoins et l'état de votre jardin.",
 			icon: '📍'
 		},
 		{
 			step: '2',
 			title: 'Devis personnalisé',
-			description: 'Je vous propose un forfait sur-mesure : mensuel ou annuel, selon vos préférences.',
+			description:
+				'Je vous propose un forfait sur-mesure : mensuel ou annuel, selon vos préférences.',
 			icon: '📋'
 		},
 		{
@@ -114,7 +116,7 @@ export const pricing = {
 		},
 		{
 			name: 'Forfait Annuel',
-			description: 'Le meilleur rapport qualité-prix pour un suivi toute l\'année',
+			description: "Le meilleur rapport qualité-prix pour un suivi toute l'année",
 			features: [
 				'Tarif préférentiel',
 				'Suivi 4 saisons',
@@ -128,7 +130,7 @@ export const pricing = {
 
 export const testimonials = {
 	title: 'Ils me font confiance',
-	subtitle: 'L\'avis de mes clients est ma meilleure récompense',
+	subtitle: "L'avis de mes clients est ma meilleure récompense",
 	list: [
 		{
 			name: 'Marie D.',
@@ -139,7 +141,7 @@ export const testimonials = {
 		{
 			name: 'Pierre L.',
 			location: 'Votre ville',
-			text: 'Un vrai professionnel. Mon jardin n\'a jamais été aussi beau. Le forfait annuel est vraiment intéressant.',
+			text: "Un vrai professionnel. Mon jardin n'a jamais été aussi beau. Le forfait annuel est vraiment intéressant.",
 			rating: 5
 		},
 		{
@@ -165,7 +167,7 @@ export const contact = {
 };
 
 export const gallery = {
-	title: 'Nos réalisations parlent d\'elles-mêmes',
+	title: "Nos réalisations parlent d'elles-mêmes",
 	subtitle: 'Découvrez la transformation de jardins confiés à nos soins',
 	note: '📸 Photos de chantiers à venir - Section en préparation',
 	projects: [
@@ -205,7 +207,7 @@ export const gallery = {
 export const appointment = {
 	title: 'Réservez votre premier rendez-vous',
 	subtitle: 'Consultation gratuite pour évaluer vos besoins et établir un devis personnalisé',
-	note: '⚠️ Sous réserve d\'acceptation du professionnel - Confirmation par téléphone',
+	note: "⚠️ Sous réserve d'acceptation du professionnel - Confirmation par téléphone",
 	benefits: [
 		{
 			icon: '📅',
